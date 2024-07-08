@@ -46,7 +46,35 @@ function cellClick(event) {
  } else if (!gameState.includes("")) {
     gameStatus.textContent = "Empate!";
  } else{
+    //alterna para o proximo jogador
     initialPlayer = initialPlayer === 'X' ? 'O' : 'X'
  }
 
 }
+
+//verifica se tem ganhador
+function checkWinner(){
+    return WinningCombinations.some(combination =>{
+        return combination.every(index => {
+            return gameState[index] === initialPlayer;
+        })
+    })
+}
+
+//função para reiniciar o jogo
+function restarGame(){
+    gameState = ["","","","","","","","",""];
+    initialPlayer = 'X';
+    cells.forEach(cell => {
+        cell.textContent = '';
+    });
+    gameStatus = '';
+}
+
+//adicionando um ouvinte de evento de clique a cada celula
+cells.forEach(cell => {
+    cell.addEventListener('click', cellClick);
+})
+
+//adicionando um ouvinte de evento clique no botao reiniciar
+restarButton.addEventListener('click', restarGame);
